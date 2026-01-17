@@ -12,7 +12,7 @@
 :: system -c 'out=usr; [ -e "$out/bin/cosmocc" ] || usr/bin/unzip -d "$out" usr/cosmocc.zip'
 :: system -c 'out=usr; [ -e "$out/bin/cosmocc" ] || unzip -d "$out" usr/cosmocc.zip'
 :: system -c 'out=usr; [ -e "$out/bin/cosmocc" ] && echo "    [+] $out/bin/cosmocc: exists"'
-:: system -c 'out=usr/bin/zc.com; [ -e "$out" ] || curl -o "$out" -L https://github.com/OEvgeny/zc-ape/releases/download/v0.0.0-pre/zc.com'
+:: system -c 'out=usr/bin/zc.com; [ -e "$out" ] || curl -o "$out" -L https://github.com/OEvgeny/zc-ape/releases/latest/download/zc.com'
 :: system -c 'out=usr/bin/zc.com; [ -e "$out" ] && echo "    [+] $out: exists"'
 :: system -c 'chmod 755 usr/bin/zc.com'
 :: system -c 'out=Makefile; [ -e "$out" ] || curl -o "$out" https://raw.githubusercontent.com/OEvgeny/zc-ape/main/zc-boot/Makefile'
