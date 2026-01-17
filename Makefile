@@ -38,7 +38,7 @@ $(ZC_ENTRY_O): zc-ape/zc_entry.c
 
 $(ZC_BIN): $(ZC_ENTRY_O) $(ZC_SRC_ROOT)/Makefile
 	@mkdir -p $(@D)
-	$(MAKE) -C $(ZC_SRC_ROOT) \
+	$(MAKE) --always-make -C $(ZC_SRC_ROOT) \
 		PLUGINS= \
 		CC=$(CC) \
 		LIBS="$(abspath $(ZC_ENTRY_O)) -Wl,--wrap=main" \
