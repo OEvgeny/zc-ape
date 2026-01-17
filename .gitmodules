@@ -1,3 +1,5 @@
 [submodule "third-party/Zen-C"]
 	path = third-party/Zen-C
+# Uncomment one of below lines to use either SSH or HTTPS
 	url = https://github.com/z-libs/Zen-C.git
+    # url = git@github.com:z-libs/Zen-C.git

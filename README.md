@@ -10,23 +10,17 @@ Known issues:
 
 ## Development
 
-After clonning the repo with submodules:
+After clonning the repo:
 
 ```bash
-git clone --recursive git@github.com:OEvgeny/zc-ape.git        # ssh
-# or 
-git clone --recursive https://github.com/OEvgeny/zc-ape.git    # https
-
-# or if already cloned
+git clone https://github.com/OEvgeny/zc-ape.git
+# or over ssh:
 git clone git@github.com:OEvgeny/zc-ape.git
-cd zc-ape
-git submodule init
-git submodule update
 ```
 
 Run the following commands to obtain required tools and perform build
 
 ```bash
-./boot-repo.com    # download unzip, zip, cosmocc into ./usr/bin
+./boot-repo.com    # setup submodules, download unzip, zip, cosmocc, make into ./usr/bin
 usr/bin/make       # build zc.com
 ```
