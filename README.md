@@ -4,6 +4,10 @@
 
 The easiest way to get started is to download `zc-boot.com` from the Releases page.
 
+Known issues:
+- Some systems may need `curl` utility available in `PATH` [see #1](https://github.com/OEvgeny/zc-ape/issues/1)
+- Some systems may need `unzip` utility available in `PATH` [see #2](https://github.com/OEvgeny/zc-ape/issues/2)
+
 ## Development
 
 After clonning the repo with submodules:
