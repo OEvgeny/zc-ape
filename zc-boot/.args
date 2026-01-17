@@ -11,3 +11,6 @@
 :: system -c 'out=usr/cosmocc.zip; [ -e "$out" ] && echo "    [+] $out: exists"'
 :: system -c 'out=usr; [ -e "$out/bin/cosmocc" ] || usr/bin/unzip -d "$out" usr/cosmocc.zip'
 :: system -c 'out=usr; [ -e "$out/bin/cosmocc" ] && echo "    [+] $out/bin/cosmocc: exists"'
+:: system -c 'out=usr/bin/zc.com; [ -e "$out" ] || curl -o "$out" -L https://github.com/OEvgeny/zc-ape/releases/download/v0.0.0-pre/zc.com'
+:: system -c 'out=usr/bin/zc.com; [ -e "$out" ] && echo "    [+] $out: exists"'
+:: system -c 'chmod 755 usr/bin/zc.com'

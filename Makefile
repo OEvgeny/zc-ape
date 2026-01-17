@@ -53,7 +53,7 @@ $(ZC): $(ZC_BIN)
 $(ZC_BOOT_BIN): $(ZC_BOOT_SRC)
 	$(ZC) build --cc $(CC) -o $@ $<
 
-$(ZC_BOOT): $(ZC_BOOT_BIN) $(abspath $(ZC_BOOT_SRC_ROOT)/.args)
+$(ZC_BOOT): $(ZC_BOOT_BIN) $(realpath $(ZC_BOOT_SRC_ROOT)/.args)
 	@cp -f $(ZC_BOOT_BIN) $(wildcard $(ZC_BOOT_BIN).*) "$(@D)";
-	(cd $(ZC_BOOT_SRC_ROOT) && zip -r "$(abspath $@)" .args);
-
+	(cd $(ZC_BOOT_SRC_ROOT) && zip "$(abspath $@)" .args hello.zc Makefile);
+	(zip "$(abspath $@)" LICENSE);
