@@ -1,3 +1,3 @@
 [submodule "third-party/Zen-C"]
 	path = third-party/Zen-C
-	url = git@github.com:z-libs/Zen-C.git
+	url = https://github.com/z-libs/Zen-C.git

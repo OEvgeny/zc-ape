@@ -1,0 +1,70 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Determine release type
+        id: release-type
+        run: |
+          TAG="${{ github.ref }}"
+          VERSION="${TAG#refs/tags/}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          
+          # Check if version contains pre-release identifiers
+          if [[ $VERSION =~ (alpha|beta|rc|pre|preview) ]]; then
+            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+            echo "Release type: Pre-release"
+          else
+            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+            echo "Release type: Release"
+          fi
+
+      - name: Setup build tools
+        run: |
+          chmod +x boot-repo.com
+          ./boot-repo.com
+
+      - name: Build project
+        run: |
+          usr/bin/make
+
+      - name: Prepare artifacts
+        run: |
+          mkdir -p release-artifacts
+          cp -r out/bin/* release-artifacts/ 2>/dev/null || echo "No artifacts found in out/bin"
+          ls -la release-artifacts/
+
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.release-type.outputs.version }}"
+          IS_PRERELEASE="${{ steps.release-type.outputs.is_prerelease }}"
+          
+          # Build the gh release create command with artifacts
+          CMD="gh release create \"$VERSION\" --title \"$VERSION\" --notes \"Release $VERSION\""
+          
+          if [[ "$IS_PRERELEASE" == "true" ]]; then
+            CMD="$CMD --prerelease"
+          fi
+          
+          # Add all files from release-artifacts directory
+          if [ -d "release-artifacts" ] && [ "$(ls -A release-artifacts)" ]; then
+            CMD="$CMD release-artifacts/*"
+          fi
+          
+          eval $CMD
