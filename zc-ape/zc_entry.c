@@ -105,10 +105,7 @@ static void unlink_if_exists(const char *path) {
 static void cleanup_cosmocc_out(const char *out) {
   char buf[4096];
 
-  if (snprintf(buf, sizeof(buf), "%s.com.dbg", out) < (int)sizeof(buf))
-    unlink_if_exists(buf);
-
-  if (snprintf(buf, sizeof(buf), "%s.aarch64.elf", out) < (int)sizeof(buf))
+  if (snprintf(buf, sizeof(buf), "%s.dbg", out) < (int)sizeof(buf))
     unlink_if_exists(buf);
 
   size_t n = strlen(out);
@@ -118,13 +115,28 @@ static void cleanup_cosmocc_out(const char *out) {
       memcpy(base, out, n - 4);
       base[n - 4] = 0;
 
-      if (snprintf(buf, sizeof(buf), "%s.dbg", base) < (int)sizeof(buf))
-        unlink_if_exists(buf);
-
       if (snprintf(buf, sizeof(buf), "%s.aarch64.elf", base) < (int)sizeof(buf))
         unlink_if_exists(buf);
     }
   }
+}
+
+static bool out_exists(const char *out) {
+  char buf[4096];
+  if (snprintf(buf, sizeof(buf), "%s.dbg", out) < (int)sizeof(buf))
+    if (access(buf, F_OK) != -1) return true;
+  
+  char base[4096];
+  size_t n = strlen(out);
+  if (n > 4 && !strcmp(out + (n - 4), ".com")) {
+    if (n - 4 < sizeof(base)) {
+      memcpy(base, out, n - 4);
+      base[n - 4] = 0;
+      if (snprintf(buf, sizeof(buf), "%s.aarch64.elf", base) < (int)sizeof(buf))
+        if (access(buf, F_OK) != -1) return true;
+    }
+  }
+  return false;
 }
 
 static void ensure_env(const char *key, const char *val) {
@@ -141,11 +153,12 @@ int __wrap_main(int argc, char **argv) {
 
   inject_default_out(&argc, &argv, "a.out.com");
 
+  const char *out = get_out_value(argc, argv);
+  
   bool do_cleanup =
       is_cmd(argc, argv, "run") &&
-      cc_is_cosmocc(argc, argv);
-
-  const char *out = get_out_value(argc, argv);
+      cc_is_cosmocc(argc, argv) &&
+      !out_exists(out);
 
   int rc = __real_main(argc, argv);
 
