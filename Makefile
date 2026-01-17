@@ -57,3 +57,8 @@ $(ZC_BOOT): $(ZC_BOOT_BIN) $(realpath $(ZC_BOOT_SRC_ROOT)/.args)
 	@cp -f $(ZC_BOOT_BIN) $(wildcard $(ZC_BOOT_BIN).*) "$(@D)";
 	(cd $(ZC_BOOT_SRC_ROOT) && zip "$(abspath $@)" .args hello.zc instructions.txt Makefile);
 	(zip "$(abspath $@)" LICENSE);
+
+boot-repo.com: $(ZC_BOOT_BIN)
+	@cp -f $(ZC_BOOT_BIN) $@;
+	(cd boot-repo && zip "$(abspath $@)" .args);
+
