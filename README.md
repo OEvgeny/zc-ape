@@ -1,5 +1,9 @@
 # Actually portable Zen-C
 
+## Getting started
+
+The easiest way to get started is to download `zc-boot.com` from the Releases page.
+
 ## Development
 
 After clonning the repo with submodules:
