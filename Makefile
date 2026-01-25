@@ -50,8 +50,8 @@ $(ZC): $(ZC_BIN)
 	(cd $(ZC_SRC_ROOT) && zip -r "$(abspath $@)" std.zc std LICENSE);
 
 # zc-boot targets
-$(ZC_BOOT_BIN): $(ZC_BOOT_SRC)
-	$(ZC) build --cc $(CC) -o $@ $<
+$(ZC_BOOT_BIN): $(ZC) $(ZC_BOOT_SRC)
+	$(ZC) build --cc $(CC) -o $@ $(ZC_BOOT_SRC)
 
 $(ZC_BOOT): $(ZC_BOOT_BIN) $(realpath $(ZC_BOOT_SRC_ROOT)/.args)
 	@cp -f $(ZC_BOOT_BIN) $(wildcard $(ZC_BOOT_BIN).*) "$(@D)";
